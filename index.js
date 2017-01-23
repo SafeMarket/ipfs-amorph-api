@@ -21,14 +21,14 @@ IpfsAmorphApi.prototype.defer = function defer() {
 
 
 IpfsAmorphApi.prototype.addFile = function addFile(file) {
-  arguguard('ipfsAmorphApi.uploadFiles(files)', [Amorph], arguments)
+  arguguard('ipfsAmorphApi.addFile(file)', [Amorph], arguments)
   return this.api.add(file.to('buffer')).then((results) => {
     return new Amorph(results[0].hash, 'base58')
   })
 }
 
 IpfsAmorphApi.prototype.getFile = function getFile(multihash) {
-  arguguard('IpfsAmorphApi', [Amorph], arguments)
+  arguguard('ipfsAmorphApi.getFile(multihash)', [Amorph], arguments)
   const deferred = this.defer()
   this.api.get(multihash.to('base58')).then((readable) => {
     readable.on('readable', () => {

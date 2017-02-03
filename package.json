@@ -1,6 +1,6 @@
 {
   "name": "ipfs-amorph-api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Amorphic API for IPFS",
   "main": "index.js",
   "scripts": {

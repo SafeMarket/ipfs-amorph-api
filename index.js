@@ -14,6 +14,8 @@ function IpfsAmorphApi(ipfsApiOptions) {
   this.api = IpfsApi(ipfsApiOptions)
 }
 
+IpfsAmorphApi.Amorph = Amorph
+
 IpfsAmorphApi.prototype.defer = function defer() {
   arguguard('IpfsAmorphApi.defer()', [], arguments)
   return Q.defer()
@@ -21,14 +23,14 @@ IpfsAmorphApi.prototype.defer = function defer() {
 
 
 IpfsAmorphApi.prototype.addFile = function addFile(file) {
-  arguguard('ipfsAmorphApi.addFile(file)', [Amorph], arguments)
+  arguguard('ipfsAmorphApi.addFile(file)', [IpfsAmorphApi.Amorph], arguments)
   return this.api.add(file.to('buffer')).then((results) => {
-    return new Amorph(results[0].hash, 'base58')
+    return new IpfsAmorphApi.Amorph(results[0].hash, 'base58')
   })
 }
 
 IpfsAmorphApi.prototype.getFile = function getFile(multihash) {
-  arguguard('ipfsAmorphApi.getFile(multihash)', [Amorph], arguments)
+  arguguard('ipfsAmorphApi.getFile(multihash)', [IpfsAmorphApi.Amorph], arguments)
   const deferred = this.defer()
   this.api.get(multihash.to('base58')).then((readable) => {
     readable.on('readable', () => {
@@ -43,7 +45,7 @@ IpfsAmorphApi.prototype.getFile = function getFile(multihash) {
         data.push(..._data)
       })
       result.content.on('end', () => {
-        deferred.resolve(new Amorph(data, 'array'))
+        deferred.resolve(new IpfsAmorphApi.Amorph(data, 'array'))
       })
     })
   })
